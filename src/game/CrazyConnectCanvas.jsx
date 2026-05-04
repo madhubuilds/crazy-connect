@@ -3,6 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import SceneLighting from "./lighting/SceneLighting";
 import IsometricCamera from "./camera/IsometricCamera";
 import Room from "./room/Room";
+import PlacementGrid from "./grid/PlacementGrid";
 function CrazyConnectCanvas() {
   return (
     <Canvas
@@ -12,8 +13,9 @@ function CrazyConnectCanvas() {
       <color attach="background" args={["#f5ead8"]} />
       <IsometricCamera />
       <SceneLighting />
-      <Room /> 
 
+      <Room />
+      <PlacementGrid />
       {/* <OrbitControls /> */}
     </Canvas>
   );

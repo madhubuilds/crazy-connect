@@ -4,15 +4,21 @@ import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
 import "./App.css";
 import CrazyConnectCanvas from "./game/CrazyConnectCanvas";
+import { useGameStore } from "./store/gameStore/useGameStore";
+import GameUI from "./components/gameUI/GameUI";
 
 function App() {
+  const mode = useGameStore((state) => state.mode);
+  const startPlacing = useGameStore((state) => state.startPlacing);
+  const stopPlacing = useGameStore((state) => state.stopPlacing);
+
+  const isPlacing = mode === "placing";
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-[#f5ead8]">
+    <main className="relative h-[100svh] w-screen overflow-hidden bg-[#f5ead8]">
       <CrazyConnectCanvas />
 
-      <div className="pointer-events-none absolute inset-0">
-        {/* Future UI will go here */}
-      </div>
+      {/* UI Overlay */}
+      <GameUI />
     </main>
   );
 }
