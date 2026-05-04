@@ -13,8 +13,10 @@ function IsometricCamera() {
     <OrthographicCamera
       ref={cameraRef}
       makeDefault
-      position={[8, 8, 8]}
-      zoom={55}
+    
+ position={[-10, 10, 10]}
+      zoom={35}
+
       near={0.1}
       far={100}
     />
