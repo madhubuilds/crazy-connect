@@ -7,17 +7,18 @@ function IsometricCamera() {
     const updateZoom = () => {
       const width = window.innerWidth;
       if (width < 400) {
-        setZoom(18); // small phones
+        setZoom(28);
       } else if (width < 768) {
-        setZoom(22); //normal mobile / tablet
+        setZoom(32);
+      } else if (width < 1280) {
+        setZoom(48); // 👈 IMPORTANT
       } else {
-        //desktop
-        setZoom(38);
+        setZoom(56); // large desktop
       }
     };
     updateZoom();
     window.addEventListener("resize", updateZoom);
-    return () => window.removeEventListener("resize", updateZoom); 
+    return () => window.removeEventListener("resize", updateZoom);
   }, []);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function IsometricCamera() {
 
     cameraRef.current.lookAt(0, 0, 0);
     cameraRef.current.updateProjectionMatrix();
-  }, [zoom]); 
+  }, [zoom]);
   return (
     <OrthographicCamera
       ref={cameraRef}

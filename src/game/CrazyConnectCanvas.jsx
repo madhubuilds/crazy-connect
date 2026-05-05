@@ -4,6 +4,9 @@ import SceneLighting from "./lighting/SceneLighting";
 import IsometricCamera from "./camera/IsometricCamera";
 import Room from "./room/Room";
 import PlacementGrid from "./grid/PlacementGrid";
+import Chair from "./furniture/Chair";
+import FurniturePreview from "./furniture/FurniturePreview";
+import PlacedFurniture from "./furniture/PlacedFurniture";
 function CrazyConnectCanvas() {
   return (
     <Canvas
@@ -17,8 +20,12 @@ function CrazyConnectCanvas() {
       <SceneLighting />
 
       <Room />
+      <FurniturePreview />
+
+      {/* <Chair /> */}
+      <PlacedFurniture />
       <PlacementGrid />
-      {/* <OrbitControls /> */}
+      <OrbitControls />
     </Canvas>
   );
 }
