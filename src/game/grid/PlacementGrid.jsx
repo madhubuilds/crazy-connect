@@ -34,7 +34,7 @@ export default function PlacementGrid() {
   return (
     <gridHelper
       ref={gridRef}
-      args={[ROOM_SIZE, ROOM_SIZE, "#ffffff", "#ffffff"]}
+      args={[ROOM_SIZE, ROOM_SIZE, "#f5efe6", "#f5efe6"]}
       position={[0, 0.02, 0]}
     />
   );

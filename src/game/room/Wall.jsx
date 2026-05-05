@@ -4,7 +4,7 @@ function Wall({ position, scale }) {
   return (
     <mesh position={position}>
       <boxGeometry args={scale} />
-      <meshStandardMaterial color={WALL_COLOR} roughness={0.85} />
+      <meshStandardMaterial color={WALL_COLOR} roughness={0.9} metalness={0} />
     </mesh>
   );
 }

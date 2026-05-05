@@ -10,7 +10,9 @@ function CrazyConnectCanvas() {
       className="h-full w-full touch-none"
       gl={{ antialias: true, alpha: false }}
     >
-      <color attach="background" args={["#f5ead8"]} />
+      <fog attach="fog" args={["#f6efe6", 15, 30]} />
+
+      <color attach="background" args={["#f8f2e9"]} />
       <IsometricCamera />
       <SceneLighting />
 

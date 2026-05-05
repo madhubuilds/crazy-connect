@@ -25,8 +25,7 @@ function IsometricCamera() {
 
     cameraRef.current.lookAt(0, 0, 0);
     cameraRef.current.updateProjectionMatrix();
-  }, [zoom]);
-  console.log(zoom);
+  }, [zoom]); 
   return (
     <OrthographicCamera
       ref={cameraRef}

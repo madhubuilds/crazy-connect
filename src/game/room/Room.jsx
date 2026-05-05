@@ -14,13 +14,13 @@ export default function Room() {
 
       {/* Back wall */}
       <Wall
-        position={[0, WALL_HEIGHT / 2, -HALF_ROOM_SIZE]}
+        position={[0, WALL_HEIGHT / 2, -HALF_ROOM_SIZE + 0.01]}
         scale={[ROOM_SIZE, WALL_HEIGHT, WALL_THICKNESS]}
       />
 
       {/* Right wall */}
       <Wall
-        position={[HALF_ROOM_SIZE, WALL_HEIGHT / 2, 0]}
+        position={[HALF_ROOM_SIZE - 0.01, WALL_HEIGHT / 2, 0]}
         scale={[WALL_THICKNESS, WALL_HEIGHT, ROOM_SIZE]}
       />
     </group>
