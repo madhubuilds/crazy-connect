@@ -19,7 +19,10 @@ function PlacedFurniture() {
               selectItem(item.id);
             }}
           >
-            <Chair ghost={isSelected} />
+            <Chair
+              ghost={isSelected}
+              pointerEvents={isSelected ? "none" : "auto"}
+            />
           </group>
         );
       })}

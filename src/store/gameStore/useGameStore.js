@@ -64,6 +64,17 @@ export const useGameStore = create((set) => ({
       mode: "view",
     }),
 
+  moveSelectedItem: (position) =>
+    set((state) => {
+      if (!state.selectedItemId) return {};
+
+      return {
+        placedItems: state.placedItems.map((item) =>
+          item.id === state.selectedItemId ? { ...item, position } : item,
+        ),
+      };
+    }),
+
   rotateSelectedItem: () =>
     set((state) => {
       if (!state.selectedItemId) return {};

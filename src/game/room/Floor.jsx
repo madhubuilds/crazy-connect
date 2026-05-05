@@ -3,17 +3,19 @@ import { FLOOR_COLOR, ROOM_SIZE } from "../../utils/constants.js";
 
 function Floor() {
   const mode = useGameStore((state) => state.mode);
+
+  const moveSelectedItem = useGameStore((state) => state.moveSelectedItem);
+
   const updatePreviewPosition = useGameStore(
     (state) => state.updatePreviewPosition,
   );
 
   const half = ROOM_SIZE / 2;
-
-  const handlePointerDown = (e) => {
-    if (mode !== "placing") return;
+console.log(half)
+  const handlePointerDown = (e) => { 
 
     // World position where user tapped on the floor
-    const { x, z } = e.point; 
+    const { x, z } = e.point;
 
     // Snap to grid (1 unit)
     const snappedX = Math.round(x);
@@ -23,7 +25,15 @@ function Floor() {
     const clampedX = Math.max(-half + 0.5, Math.min(half - 0.5, snappedX));
     const clampedZ = Math.max(-half + 0.5, Math.min(half - 0.5, snappedZ));
 
-    updatePreviewPosition([clampedX, 0, clampedZ]);
+    const snappedPosition = [clampedX, 0, clampedZ];
+
+    if (mode === "placing") {
+      updatePreviewPosition(snappedPosition);
+    }
+
+    if (mode === "moving") {
+      moveSelectedItem(snappedPosition);
+    } 
   };
   return (
     <mesh
