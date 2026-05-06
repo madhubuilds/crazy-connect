@@ -1,106 +1,123 @@
 import { create } from "zustand";
+const STORAGE_KEY = "crazyconnect-room-v1";
+export const useGameStore = create((set) => {
+  // ---- LOAD FROM STORAGE ON INIT ----
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const initialPlacedItems = saved ? JSON.parse(saved) : [];
 
-export const useGameStore = create((set) => ({
-  // modes: view | placing | moving
-  mode: "view",
-  setMode: () => set({ mode }),
+  return {
+    // ---------------- STATE ----------------
+    mode: "view", // view | placing | moving
 
-  // furniture being previewed (ghost)
-  previewItem: null,
+    previewItem: null,
 
-  // real placed furniture
-  placedItems: [],
-  selectedItemId: null,
-  startPlacing: () =>
-    set({
-      mode: "placing",
-      previewItem: {
-        id: Date.now(),
-        type: "chair",
-        position: [0, 0, 0],
-        rotation: 0,
-      },
-    }),
+    placedItems: initialPlacedItems,
 
-  stopPlacing: () =>
-    set({
-      mode: "view",
-      previewItem: null,
-    }),
+    selectedItemId: null,
 
-  updatePreviewPosition: (position) =>
-    set((state) => ({
-      previewItem: state.previewItem
-        ? { ...state.previewItem, position }
-        : null,
-    })),
+    // ---------------- PLACING ----------------
+    startPlacing: (type) =>
+      set({
+        mode: "placing",
+        previewItem: {
+          id: Date.now(),
+          type,
+          position: [0, 0, 0],
+          rotation: 0,
+        },
+      }),
 
-  updatePreviewRotation: (rotation) =>
-    set((state) => ({
-      previewItem: state.previewItem
-        ? { ...state.previewItem, rotation }
-        : null,
-    })),
-
-  placePreviewItem: () =>
-    set((state) => {
-      if (!state.previewItem) return {};
-      return {
-        placedItems: [...state.placedItems, state.previewItem],
-        previewItem: null,
+    stopPlacing: () =>
+      set({
         mode: "view",
-      };
-    }),
+        previewItem: null,
+      }),
 
-  selectItem: (id) =>
-    set({
-      selectedItemId: id,
-      mode: "moving", // reuse moving mode
-    }),
+    updatePreviewPosition: (position) =>
+      set((state) => ({
+        previewItem: state.previewItem
+          ? { ...state.previewItem, position }
+          : null,
+      })),
 
-  clearSelection: () =>
-    set({
-      selectedItemId: null,
-      mode: "view",
-    }),
+    updatePreviewRotation: (rotation) =>
+      set((state) => ({
+        previewItem: state.previewItem
+          ? { ...state.previewItem, rotation }
+          : null,
+      })),
 
-  moveSelectedItem: (position) =>
-    set((state) => {
-      if (!state.selectedItemId) return {};
+    placePreviewItem: () =>
+      set((state) => {
+        if (!state.previewItem) return {};
 
-      return {
-        placedItems: state.placedItems.map((item) =>
-          item.id === state.selectedItemId ? { ...item, position } : item,
-        ),
-      };
-    }),
+        const updatedItems = [...state.placedItems, state.previewItem];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
 
-  rotateSelectedItem: () =>
-    set((state) => {
-      if (!state.selectedItemId) return {};
+        return {
+          placedItems: updatedItems,
+          previewItem: null,
+          mode: "view",
+        };
+      }),
 
-      return {
-        placedItems: state.placedItems.map((item) =>
-          item.id === state.selectedItemId
-            ? {
-                ...item,
-                rotation: item.rotation + Math.PI / 2, // 90°
-              }
-            : item,
-        ),
-      };
-    }),
+    // ---------------- SELECTION ----------------
+    selectItem: (id) =>
+      set({
+        selectedItemId: id,
+        mode: "moving",
+      }),
 
-  deleteSelectedItem: () =>
-    set((state) => {
-      if (!state.selectedItemId) return {};
-
-      return {
-        placedItems: state.placedItems.filter(
-          (item) => item.id !== state.selectedItemId,
-        ),
+    clearSelection: () =>
+      set({
         selectedItemId: null,
         mode: "view",
-      };
-    }),
-}));
+      }),
+
+    // ---------------- MOVE ----------------
+    moveSelectedItem: (position) =>
+      set((state) => {
+        if (!state.selectedItemId) return {};
+
+        const updatedItems = state.placedItems.map((item) =>
+          item.id === state.selectedItemId ? { ...item, position } : item,
+        );
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
+        return { placedItems: updatedItems };
+      }),
+
+    // ---------------- ROTATE ----------------
+    rotateSelectedItem: () =>
+      set((state) => {
+        if (!state.selectedItemId) return {};
+
+        const updatedItems = state.placedItems.map((item) =>
+          item.id === state.selectedItemId
+            ? { ...item, rotation: item.rotation + Math.PI / 2 }
+            : item,
+        );
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
+        return { placedItems: updatedItems };
+      }),
+
+    // ---------------- DELETE ----------------
+    deleteSelectedItem: () =>
+      set((state) => {
+        if (!state.selectedItemId) return {};
+
+        const updatedItems = state.placedItems.filter(
+          (item) => item.id !== state.selectedItemId,
+        );
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
+
+        return {
+          placedItems: updatedItems,
+          selectedItemId: null,
+          mode: "view",
+        };
+      }),
+  };
+});

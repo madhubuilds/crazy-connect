@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useMemo } from "react";
+import { animated, useSpring } from "@react-spring/three";
 import { Box3, Vector3 } from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils";
 
@@ -35,11 +36,18 @@ function Chair({ ghost = false, ...props }) {
 
     return cloned;
   }, [scene, ghost]);
+  const spring = useSpring({
+    scale: ghost ? 1 : 1,
+    from: { scale: ghost ? 1 : 0.9 },
+    config: { tension: 300, friction: 20 },
+  });
+  ``;
 
   return (
-    <primitive
+    <animated.primitive
       object={centeredScene}
-      scale={1} // ✅ now scale is REAL
+      scale={spring.scale}
+      // ✅ now scale is REAL
       rotation={[0, 0, 0]}
       {...props}
     />

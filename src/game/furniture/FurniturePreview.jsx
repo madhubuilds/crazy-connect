@@ -5,10 +5,14 @@ function FurniturePreview() {
   const previewItem = useGameStore((state) => state.previewItem);
 
   if (!previewItem) return null;
-  const { position, rotation } = previewItem;
+  const { position, rotation, type } = previewItem;
+
+  // TEMP: reuse Chair for all types
+  const FurnitureComponent = Chair;
+
   return (
     <group position={position} rotation={[0, rotation, 0]}>
-      <Chair
+      <FurnitureComponent
         position={[0, 0.02, 0]} // slight lift above floor
         renderOrder={1}
         ghost

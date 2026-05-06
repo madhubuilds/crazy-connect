@@ -1,9 +1,14 @@
 function SceneLighting() {
   return (
     <>
-      <ambientLight intensity={1.1} />
+      <ambientLight intensity={0.9} />
 
-      <directionalLight position={[6, 10, 6]} intensity={1.2} color="#fff0d8" />
+      <directionalLight position={[6, 10, 6]} intensity={1.0} color="#fff0d5" />
+      <directionalLight
+        position={[-6, 6, -6]}
+        intensity={0.25}
+        color="#cfefff"
+      />
     </>
   );
 }

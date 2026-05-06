@@ -11,9 +11,7 @@ function Floor() {
   );
 
   const half = ROOM_SIZE / 2;
-console.log(half)
-  const handlePointerDown = (e) => { 
-
+  const handlePointerDown = (e) => {
     // World position where user tapped on the floor
     const { x, z } = e.point;
 
@@ -33,7 +31,7 @@ console.log(half)
 
     if (mode === "moving") {
       moveSelectedItem(snappedPosition);
-    } 
+    }
   };
   return (
     <mesh

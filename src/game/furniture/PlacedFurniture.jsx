@@ -1,5 +1,7 @@
 import { useGameStore } from "../../store/gameStore/useGameStore";
 import Chair from "./Chair";
+import SelectionRing from "./SelectionRing";
+import ShadowBlob from "./ShadowBlob";
 function PlacedFurniture() {
   const placedItems = useGameStore((state) => state.placedItems);
   const selectItem = useGameStore((state) => state.selectItem);
@@ -9,6 +11,7 @@ function PlacedFurniture() {
     <>
       {placedItems.map((item) => {
         const isSelected = item.id === selectedItemId;
+        const FurnitureComponent = Chair; // TEMP
         return (
           <group
             key={item.id}
@@ -18,11 +21,12 @@ function PlacedFurniture() {
               e.stopPropagation();
               selectItem(item.id);
             }}
+            onPointerOver={() => (document.body.style.cursor = "pointer")}
+            onPointerOut={() => (document.body.style.cursor = "default")}
           >
-            <Chair
-              ghost={isSelected}
-              pointerEvents={isSelected ? "none" : "auto"}
-            />
+            <ShadowBlob />
+            {isSelected && <SelectionRing />}
+            <FurnitureComponent ghost={isSelected} />
           </group>
         );
       })}
@@ -30,3 +34,10 @@ function PlacedFurniture() {
   );
 }
 export default PlacedFurniture;
+
+{
+  /* <Chair
+  ghost={isSelected}
+  pointerEvents={isSelected ? "none" : "auto"}
+/> */
+}

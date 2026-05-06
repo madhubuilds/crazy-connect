@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import { useGameStore } from "../../store/gameStore/useGameStore";
+import { FurnitureMenu } from "./FurnitureMenu";
 
 function GameUI() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const mode = useGameStore((state) => state.mode);
 
   const startPlacing = useGameStore((state) => state.startPlacing);
@@ -15,7 +18,11 @@ function GameUI() {
 
   const isPlacing = mode === "placing";
   const isSelecting = mode === "moving" && selectedItemId !== null;
-
+  useEffect(() => {
+    if (mode === "placing") {
+      setIsMenuOpen(false);
+    }
+  }, [mode]);
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
       {/* ---------- TOP STATUS ---------- */}
@@ -81,7 +88,7 @@ function GameUI() {
           {!isPlacing && !isSelecting && (
             <div className="flex items-center">
               <button
-                onClick={startPlacing}
+                onClick={() => setIsMenuOpen(true)}
                 className="min-h-12 flex-1 rounded-2xl bg-[#6b4f35] px-4 py-3 text-sm font-bold text-white active:scale-95"
               >
                 Add Item
@@ -90,6 +97,15 @@ function GameUI() {
           )}
         </div>
       </div>
+
+      <FurnitureMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onSelect={(type) => {
+          startPlacing(type);
+          setIsMenuOpen(false);
+        }}
+      />
     </div>
   );
 }
