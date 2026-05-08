@@ -16,12 +16,12 @@ export const useGameStore = create((set) => {
     selectedItemId: null,
 
     // ---------------- PLACING ----------------
-    startPlacing: (type) =>
+    startPlacing: (assetId) =>
       set({
         mode: "placing",
         previewItem: {
           id: Date.now(),
-          type,
+          assetId,
           position: [0, 0, 0],
           rotation: 0,
         },

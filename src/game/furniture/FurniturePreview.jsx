@@ -1,22 +1,19 @@
 import { useGameStore } from "../../store/gameStore/useGameStore";
 import Chair from "./Chair";
+import { FurnitureRenderer } from "./FurnitureRenderer";
 
 function FurniturePreview() {
   const previewItem = useGameStore((state) => state.previewItem);
 
   if (!previewItem) return null;
-  const { position, rotation, type } = previewItem;
+  const { position, rotation, assetId  } = previewItem;
 
   // TEMP: reuse Chair for all types
   const FurnitureComponent = Chair;
 
   return (
     <group position={position} rotation={[0, rotation, 0]}>
-      <FurnitureComponent
-        position={[0, 0.02, 0]} // slight lift above floor
-        renderOrder={1}
-        ghost
-      />
+      <FurnitureRenderer assetId={assetId} ghost />
     </group>
   );
 }

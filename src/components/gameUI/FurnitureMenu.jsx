@@ -1,8 +1,9 @@
+import { furnitureCatalog } from "../../data/furnitureCatalog";
 import { FURNITURE_TYPES } from "../../game/furniture/furnitureConfig";
 
 export const FurnitureMenu = ({ isOpen, onSelect, onClose }) => {
   if (!isOpen) return null;
-
+  furnitureCatalog;
   return (
     <div className="pointer-events-auto absolute inset-0 z-20">
       {/* Backdrop */}
@@ -15,16 +16,17 @@ export const FurnitureMenu = ({ isOpen, onSelect, onClose }) => {
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          {Object.values(FURNITURE_TYPES).map((item) => (
+          {furnitureCatalog.map((item) => (
             <button
-              key={item.id}
-              onClick={() => onSelect(item.id)}
+              key={item.assetId}
+              onClick={() => onSelect(item.assetId)}
               className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-[#f5efe6] p-4 active:scale-95"
             >
-              {/* Placeholder icon */}
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ead8bd] text-lg">
-                🪑
-              </div>
+              <img
+                src={item.thumbnailUrl}
+                alt={item.label}
+                className="h-14 w-14 rounded-xl object-cover"
+              />
 
               <span className="text-xs font-semibold text-[#6b4f35]">
                 {item.label}

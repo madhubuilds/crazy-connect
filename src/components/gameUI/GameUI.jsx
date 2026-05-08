@@ -101,8 +101,8 @@ function GameUI() {
       <FurnitureMenu
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
-        onSelect={(type) => {
-          startPlacing(type);
+        onSelect={(assetId) => {
+          startPlacing(assetId);
           setIsMenuOpen(false);
         }}
       />

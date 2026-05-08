@@ -1,5 +1,6 @@
 import { useGameStore } from "../../store/gameStore/useGameStore";
 import Chair from "./Chair";
+import { FurnitureRenderer } from "./FurnitureRenderer";
 import SelectionRing from "./SelectionRing";
 import ShadowBlob from "./ShadowBlob";
 function PlacedFurniture() {
@@ -26,7 +27,7 @@ function PlacedFurniture() {
           >
             <ShadowBlob />
             {isSelected && <SelectionRing />}
-            <FurnitureComponent ghost={isSelected} />
+            <FurnitureRenderer assetId={item.assetId} ghost={isSelected} />
           </group>
         );
       })}
