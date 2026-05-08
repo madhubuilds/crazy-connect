@@ -18,6 +18,7 @@ function PlacedFurniture() {
           (asset) => asset.assetId === item.assetId,
         );
         const footprint = asset?.footprint || [1, 1];
+        const hasSelectedItem = selectedItemId !== null;
         return (
           <group
             key={item.id}
@@ -30,15 +31,15 @@ function PlacedFurniture() {
             onPointerOver={() => (document.body.style.cursor = "pointer")}
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
-            {!isSelected && (
+            {!hasSelectedItem && (
               <FurnitureHitbox
                 footprint={footprint}
                 onSelect={() => selectItem(item.id)}
               />
             )}
 
-            <ShadowBlob />
-            {isSelected && <SelectionRing />}
+            <ShadowBlob footprint={footprint} />
+            {isSelected && <SelectionRing footprint={footprint} />}
             <FurnitureRenderer assetId={item.assetId} ghost={isSelected} />
           </group>
         );

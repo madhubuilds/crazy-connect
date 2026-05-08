@@ -127,9 +127,12 @@ export const furnitureCatalog = [
     category: "decor",
     thumbnailUrl: imageUrl + "rugRound_NE.png",
     modelUrl: glbUrl + "rugRound.glb",
-    footprint: [2, 2],
+    footprint: [1, 1],
     scale: 1.3,
     yOffset: 0.01,
+
+    selectionRadius: 0.35,
+
     rotationOffset: 0,
     isFree: true,
   },
