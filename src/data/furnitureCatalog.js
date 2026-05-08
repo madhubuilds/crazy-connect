@@ -18,7 +18,7 @@ export const furnitureCatalog = [
     label: "Chair Cushion",
     category: "chair",
     thumbnailUrl: imageUrl + "chairCushion_SW.png",
-    modelUrl: glbUrl + "chairModernCushion.glb",
+    modelUrl: glbUrl + "chairCushion.glb",
     footprint: [1, 1],
     scale: 1,
     yOffset: 0,
