@@ -1,5 +1,7 @@
+import { furnitureCatalog } from "../../data/furnitureCatalog";
 import { useGameStore } from "../../store/gameStore/useGameStore";
 import Chair from "./Chair";
+import FurnitureHitbox from "./FurnitureHitbox";
 import { FurnitureRenderer } from "./FurnitureRenderer";
 import SelectionRing from "./SelectionRing";
 import ShadowBlob from "./ShadowBlob";
@@ -12,7 +14,10 @@ function PlacedFurniture() {
     <>
       {placedItems.map((item) => {
         const isSelected = item.id === selectedItemId;
-        const FurnitureComponent = Chair; // TEMP
+        const asset = furnitureCatalog.find(
+          (asset) => asset.assetId === item.assetId,
+        );
+        const footprint = asset?.footprint || [1, 1];
         return (
           <group
             key={item.id}
@@ -25,6 +30,13 @@ function PlacedFurniture() {
             onPointerOver={() => (document.body.style.cursor = "pointer")}
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
+            {!isSelected && (
+              <FurnitureHitbox
+                footprint={footprint}
+                onSelect={() => selectItem(item.id)}
+              />
+            )}
+
             <ShadowBlob />
             {isSelected && <SelectionRing />}
             <FurnitureRenderer assetId={item.assetId} ghost={isSelected} />
