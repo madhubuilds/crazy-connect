@@ -21,7 +21,7 @@ export default function Room() {
       {/* Right wall */}
       <Wall
         position={[HALF_ROOM_SIZE - 0.01, WALL_HEIGHT / 2, 0]}
-        scale={[WALL_THICKNESS, WALL_HEIGHT, ROOM_SIZE]}
+        scale={[WALL_THICKNESS, WALL_HEIGHT, ROOM_SIZE ]}
       />
     </group>
   );

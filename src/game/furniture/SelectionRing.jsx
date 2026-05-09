@@ -16,7 +16,7 @@ function SelectionRing({ footprint = [1, 1] }) {
     >
       <ringGeometry args={[0.85, 1, 64]} />
       <meshBasicMaterial
-        color="#9ddcff"
+        color="#38bdf8"
         transparent
         opacity={0.55}
         depthWrite={false}

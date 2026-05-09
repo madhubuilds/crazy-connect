@@ -38,7 +38,7 @@ function PlacedFurniture() {
               />
             )}
 
-            <ShadowBlob footprint={footprint} />
+            {/* <ShadowBlob footprint={footprint} /> */}
             {isSelected && <SelectionRing footprint={footprint} />}
             <FurnitureRenderer assetId={item.assetId} ghost={isSelected} />
           </group>

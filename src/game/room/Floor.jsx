@@ -1,16 +1,19 @@
 import { useGameStore } from "../../store/gameStore/useGameStore.js";
-import { FLOOR_COLOR, ROOM_SIZE } from "../../utils/constants.js";
+import {
+  FLOOR_COLOR,
+  ROOM_SIZE,
+  FLOOR_THICKNESS,
+} from "../../utils/constants.js";
 
 function Floor() {
   const mode = useGameStore((state) => state.mode);
-
   const moveSelectedItem = useGameStore((state) => state.moveSelectedItem);
-
   const updatePreviewPosition = useGameStore(
     (state) => state.updatePreviewPosition,
   );
 
   const half = ROOM_SIZE / 2;
+
   const handlePointerDown = (e) => {
     // World position where user tapped on the floor
     const { x, z } = e.point;
@@ -35,12 +38,13 @@ function Floor() {
   };
   return (
     <mesh
-      position={[0, 0.01, 0]}
-      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, -FLOOR_THICKNESS / 2, 0]}
       onPointerDown={handlePointerDown}
+      receiveShadow
     >
-      <planeGeometry args={[ROOM_SIZE, ROOM_SIZE]} />
-      <meshStandardMaterial color={FLOOR_COLOR} roughness={0.9} />
+      {/* width (X), height/thickness (Y), depth (Z) */}
+      <boxGeometry args={[ROOM_SIZE, FLOOR_THICKNESS, ROOM_SIZE]} />
+      <meshToonMaterial color={FLOOR_COLOR} roughness={0.9} flatShading />
     </mesh>
   );
 }

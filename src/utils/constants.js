@@ -3,11 +3,10 @@ export const HALF_ROOM_SIZE = ROOM_SIZE / 2;
 
 export const WALL_HEIGHT = 5;
 export const WALL_THICKNESS = 0.2;
+export const FLOOR_THICKNESS = 0.2;
 
-
-export const FLOOR_COLOR = "#d1b48c"; // warm oak / sand
-export const WALL_COLOR  = "#f4efe9"; // soft cream
-
+export const FLOOR_COLOR = "#d6b47d"; // warm oak / sand
+export const WALL_COLOR = "#fff0df"; // soft cream
 
 /**
  * Instead of hardcoding 12, 5, and 0.2 everywhere, we keep them in one place.

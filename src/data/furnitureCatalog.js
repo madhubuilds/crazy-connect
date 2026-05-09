@@ -129,7 +129,7 @@ export const furnitureCatalog = [
     modelUrl: glbUrl + "rugRound.glb",
     footprint: [1, 1],
     scale: 1.3,
-    yOffset: 0.01,
+    yOffset: 0,
 
     selectionRadius: 0.35,
 

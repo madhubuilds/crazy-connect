@@ -7,7 +7,7 @@ function IsometricCamera() {
     const updateZoom = () => {
       const width = window.innerWidth;
       if (width < 400) {
-        setZoom(28);
+        setZoom(58);
       } else if (width < 768) {
         setZoom(32);
       } else if (width < 1280) {

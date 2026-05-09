@@ -1,13 +1,23 @@
 function SceneLighting() {
   return (
     <>
-      <ambientLight intensity={0.9} />
+      {/* Soft base light, not too high */}
+      <ambientLight intensity={0.65} color="#fff7ed" />
 
-      <directionalLight position={[6, 10, 6]} intensity={1.0} color="#fff0d5" />
+      {/* Warm main light */}
+      <directionalLight position={[5, 8, 6]} intensity={1.15} color="#ffe8bf" />
+
+      {/* Very soft cool fill */}
       <directionalLight
-        position={[-6, 6, -6]}
+        position={[-5, 5, -4]}
         intensity={0.25}
-        color="#cfefff"
+        color="#dbeafe"
+      /> 
+      {/* Gentle sky/ground balance */}
+      <hemisphereLight
+        skyColor="#f8fbff"
+        groundColor="#d7b98c"
+        intensity={0.45}
       />
     </>
   );

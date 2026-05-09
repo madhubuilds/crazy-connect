@@ -14,9 +14,7 @@ function FurniturePreview() {
 
   return (
     <group position={position} rotation={[0, rotation, 0]}>
-      <Center>
-        <FurnitureRenderer assetId={assetId} ghost />
-      </Center>
+      <FurnitureRenderer assetId={assetId} ghost />
     </group>
   );
 }
