@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { isPositionOccupied } from "../../utils/collision";
+
 const STORAGE_KEY = "crazyconnect-room-v1";
 export const useGameStore = create((set) => {
   // ---- LOAD FROM STORAGE ON INIT ----
@@ -51,6 +53,18 @@ export const useGameStore = create((set) => {
       set((state) => {
         if (!state.previewItem) return {};
 
+        const blocked = isPositionOccupied({
+          position: state.previewItem.position,
+          assetId: state.previewItem.assetId,
+          rotation: state.previewItem.rotation,
+          placedItems: state.placedItems,
+        });
+
+        if (blocked) {
+          console.log("Blocked: item already exists here");
+          return {};
+        }
+
         const updatedItems = [...state.placedItems, state.previewItem];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
 
@@ -79,6 +93,25 @@ export const useGameStore = create((set) => {
       set((state) => {
         if (!state.selectedItemId) return {};
 
+        const selectedItem = state.placedItems.find(
+          (item) => item.id === state.selectedItemId,
+        );
+
+        if (!selectedItem) return {};
+
+        const blocked = isPositionOccupied({
+          position,
+          assetId: selectedItem.assetId,
+          rotation: selectedItem.rotation,
+          placedItems: state.placedItems,
+          ignoreItemId: selectedItem.id,
+        });
+
+        if (blocked) {
+          console.log("Blocked: cannot move here");
+          return {};
+        }
+
         const updatedItems = state.placedItems.map((item) =>
           item.id === state.selectedItemId ? { ...item, position } : item,
         );
@@ -90,15 +123,44 @@ export const useGameStore = create((set) => {
     // ---------------- ROTATE ----------------
     rotateSelectedItem: () =>
       set((state) => {
+        // 1. Guard clause: Ensure something is actually selected
         if (!state.selectedItemId) return {};
 
+        const selectedItem = state.placedItems.find(
+          (item) => item.id === state.selectedItemId,
+        );
+
+        // 2. Guard clause: Ensure the selected item exists in the placedItems array
+        if (!selectedItem) return {};
+
+        // 3. Calculate the new rotation (+90 degrees)
+        const nextRotation = (selectedItem.rotation || 0) + Math.PI / 2;
+
+        // 4. Collision Check: Can the item actually fit in its new orientation?
+        const blocked = isPositionOccupied({
+          position: selectedItem.position,
+          assetId: selectedItem.assetId,
+          rotation: nextRotation,
+          placedItems: state.placedItems,
+          ignoreItemId: selectedItem.id, // Don't let the item collide with its "old" self
+        });
+
+        if (blocked) {
+          console.warn("Rotation blocked: Not enough space!");
+          return {}; // Return empty object to make no changes to state
+        }
+
+        // 5. Create the updated array
         const updatedItems = state.placedItems.map((item) =>
           item.id === state.selectedItemId
-            ? { ...item, rotation: item.rotation + Math.PI / 2 }
+            ? { ...item, rotation: nextRotation }
             : item,
         );
 
+        // 6. Sync to Local Storage
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedItems));
+
+        // 7. Update State
         return { placedItems: updatedItems };
       }),
 
